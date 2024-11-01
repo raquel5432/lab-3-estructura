@@ -1,0 +1,140 @@
+import javax.swing.*;
+import java.util.Random;
+import java.util.Scanner;
+
+public class MenuPrincipal {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int opcion;
+
+        do {
+            String menu = "Menú:\n"
+                    + "1. numero perfecto\n"
+                    + "2. numero primo\n"
+                    + "3. Invertir una palabra\n"
+                    + "4. Votaciones\n"
+                    + "5. Salir";
+
+            opcion = Integer.parseInt(JOptionPane.showInputDialog(menu));
+
+            switch (opcion) {
+                case 1:
+                    NumeroPerfecto(scanner);
+                    break;
+                case 2:
+                    NumeroPrimo();
+                    break;
+                case 3:
+                    invertirPalabra(scanner);
+                    break;
+                case 4:
+                    Votaciones(scanner);
+                    break;
+                case 5:
+                    JOptionPane.showMessageDialog(null, "Saliendo del programa...");
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción inválida. Intente de nuevo.");
+            }
+        } while (opcion != 5);
+    }
+
+    public static void NumeroPerfecto(Scanner scanner) {
+        int numero = Integer.parseInt(JOptionPane.showInputDialog("Ingresa un número: "));
+        int sumaDivisores = 0;
+
+        for (int i = 1; i < numero; i++) {
+            if (numero % i == 0) {
+                sumaDivisores += i;
+            }
+        }
+
+        if (sumaDivisores == numero) {
+            JOptionPane.showMessageDialog(null, numero + " es un número perfecto.");
+        } else {
+            JOptionPane.showMessageDialog(null, numero + " no es un número perfecto.");
+        }
+    }
+
+    public static void NumeroPrimo() {
+        Random random = new Random();
+        int numero = random.nextInt(100) + 1;
+
+        int contadorDivisores = 0;
+        StringBuilder divisores = new StringBuilder();
+
+        for (int i = 1; i <= numero; i++) {
+            if (numero % i == 0) {
+                contadorDivisores++;
+                divisores.append(i);
+                if (i < numero) {
+                    divisores.append(", ");
+                }
+            }
+        }
+
+        if (contadorDivisores == 2) {
+            JOptionPane.showMessageDialog(null, numero + " es primo porque solo tiene dos divisores");
+        } else {
+            JOptionPane.showMessageDialog(null, numero + " no es primo porque tiene " + contadorDivisores + " divisores");
+        }
+
+        JOptionPane.showMessageDialog(null, "Divisores de " + numero + " son: " + divisores);
+    }
+
+    public static void invertirPalabra(Scanner scanner) {
+        String palabra = JOptionPane.showInputDialog("Ingresa una palabra: ");
+        StringBuilder palabraInvertida = new StringBuilder();
+
+        for (int i = palabra.length() - 1; i >= 0; i--) {
+            palabraInvertida.append(palabra.charAt(i));
+        }
+
+        JOptionPane.showMessageDialog(null, "Palabra al revés: " + palabraInvertida);
+    }
+
+    public static void Votaciones(Scanner scanner) {
+        int cantidadVotantes = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de votantes: "));
+        int votosAzul = 0, votosRojo = 0, votosNegro = 0, votosAmarillo = 0, votosValidos = 0;
+
+        for (int i = 0; i < cantidadVotantes; i++) {
+            String voto = JOptionPane.showInputDialog("Ingrese el voto (AZUL, ROJO, NEGRO, AMARILLO): ").toUpperCase();
+
+            switch (voto) {
+                case "AZUL":
+                    votosAzul++;
+                    votosValidos++;
+                    break;
+                case "ROJO":
+                    votosRojo++;
+                    votosValidos++;
+                    break;
+                case "NEGRO":
+                    votosNegro++;
+                    votosValidos++;
+                    break;
+                case "AMARILLO":
+                    votosAmarillo++;
+                    votosValidos++;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (votosValidos < cantidadVotantes * 0.6) {
+            JOptionPane.showMessageDialog(null, "VOTACIÓN FALLIDA");
+        } else {
+            if (votosAzul > votosRojo && votosAzul > votosNegro && votosAzul > votosAmarillo) {
+                JOptionPane.showMessageDialog(null, "La planilla ganadora es: AZUL");
+            } else if (votosRojo > votosAzul && votosRojo > votosNegro && votosRojo > votosAmarillo) {
+                JOptionPane.showMessageDialog(null, "La planilla ganadora es: ROJO");
+            } else if (votosNegro > votosAzul && votosNegro > votosRojo && votosNegro > votosAmarillo) {
+                JOptionPane.showMessageDialog(null, "La planilla ganadora es: NEGRO");
+            } else {
+                JOptionPane.showMessageDialog(null, "La planilla ganadora es: AMARILLO");
+            }
+        }
+    }
+}
